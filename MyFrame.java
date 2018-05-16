@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ public class MyFrame extends JFrame {
 
 	private JTextField defend_t;
 
-	private JTextField sex_t;
+	private JComboBox sex_t;
 	
 	private JTextField nationality_t;
 	public MyFrame(){
@@ -39,10 +40,13 @@ public class MyFrame extends JFrame {
 		JLabel defend=new JLabel("defend:");
 		defend_t =new JTextField(6);
 		JLabel sex=new JLabel("sex:");
-		sex_t =new JTextField(6);
+		sex_t =new JComboBox();
+
+		sex_t.insertItemAt('男',0);
+		sex_t.insertItemAt('女',0);
 		JLabel nationality=new JLabel("nation:");
 		nationality_t =new JTextField(6);
-		add(id,new GBC(0,0).setAnchor(GBC.WEST));
+//		add(id,new GBC(0,0).setAnchor(GBC.WEST));
 		add(id_t,new GBC(1,0).setWeigth(100,100).setFill(GBC.CENTER));
 		add(name,new GBC(0,1).setAnchor(GBC.WEST));
 		add(name_t,new GBC(1,1).setWeigth(100,100).setFill(GBC.CENTER));
@@ -68,19 +72,19 @@ public class MyFrame extends JFrame {
 				
 					con=getConnection();
 					//预处理语句
-					pst=con.prepareStatement("insert into sanguo(id,name,gongji,fangyu,sex,country) values(?,?,?,?,?,?)");
+					pst=con.prepareStatement("insert into sanguo(name,gongji,fangyu,sex,country) values(?,?,?,?,?)");
 				
-					pst.setInt(1,Integer.parseInt(id_t.getText()));
 					
-					pst.setString(2,name_t.getText());
 					
-					pst.setInt(3,Integer.parseInt(attack_t.getText()));
+					pst.setString(1,name_t.getText());
 					
-					pst.setInt(4,Integer.parseInt(defend_t.getText()));
+					pst.setInt(2,Integer.parseInt(attack_t.getText()));
 					
-					pst.setString(5,sex_t.getText());
+					pst.setInt(3,Integer.parseInt(defend_t.getText()));
 					
-					pst.setString(6,nationality_t.getText());
+					pst.setString(4,sex_t.getItemAt(sex_t.getSelectedIndex()).toString());
+					
+					pst.setString(5,nationality_t.getText());
 					
 					pst.execute();
 				} catch (SQLException e1) {
@@ -101,7 +105,7 @@ public class MyFrame extends JFrame {
 						JOptionPane.showMessageDialog(MyFrame.this,"文件未正确关闭","FileCloseError",2);
 					}
 					if (error==false)
-					JOptionPane.showMessageDialog(MyFrame.this,"插入成功","SQLError",2);
+					JOptionPane.showMessageDialog(MyFrame.this,"插入成功","success",2);
 					
 				}
 				error=false;
@@ -124,8 +128,8 @@ public class MyFrame extends JFrame {
 
 				defend_t.setText("");;
 
-				sex_t.setText("");;
 				
+				MyFrame.this.setVisible(false);
 				nationality_t.setText("");;
 			}
 			
@@ -137,7 +141,7 @@ public class MyFrame extends JFrame {
 		Connection con=null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			 con=DriverManager.getConnection("jdbc:mysql://localhost:3306/MOSHOU","root","123456");
+			 con=DriverManager.getConnection("jdbc:mysql://localhost:3306/moshou","root","123456");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null,"无法找到类！","SQLError",2);
