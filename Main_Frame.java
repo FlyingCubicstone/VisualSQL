@@ -1,6 +1,7 @@
 package Win_SQL;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -35,6 +36,7 @@ public class Main_Frame extends JFrame{
 		setTitle("VisualSQL");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
+		setshow(Main_Frame.this,default_width,default_height);
 		JMenuBar bar=new JMenuBar();
 		JMenu start_menu=new JMenu("开始");
 		bar.add(start_menu);
@@ -160,6 +162,7 @@ public class Main_Frame extends JFrame{
 						// TODO Auto-generated method stub
 						System.exit(0);
 					}});
+		//"操作"菜单项添加增删改查功能的子菜单
 		operate.add(add);
 		operate.add(delete);
 		operate.add(modify);
@@ -174,6 +177,25 @@ public class Main_Frame extends JFrame{
 		//添加菜单栏
 		add(bar,BorderLayout.NORTH);
 		setSize(default_width,default_height);
-		pack();
+		
+		if(init_frame==null){
+			init_frame=new InitDialog(Main_Frame.this);
+			init_frame.setVisible(true);}
+	}
+	//设置窗体的显示位置
+	private void setshow(JFrame frame,int w_x,int w_y){
+		Dimension size=main.getScreenSize();
+		
+		//屏幕的宽和高
+		int loc_x=(int) size.getWidth();
+		int loc_y=(int) size.getHeight();
+		
+		System.out.println(loc_x+" "+loc_y+" "+w_x/2+" "+w_y/2);
+		System.out.print(loc_x/2-w_x/2);
+		System.out.print(loc_y/2-w_y/2);
+		//将窗体放置在正中央
+		frame.setLocation(loc_x/2-300,loc_y/2-200);
+		
+	
 	}
 }

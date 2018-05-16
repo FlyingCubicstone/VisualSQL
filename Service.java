@@ -22,7 +22,7 @@ public class Service {
 		prop.load(fis);
 		String host=prop.getProperty("host");
 		String driver=prop.getProperty("driver"); 
-		String username=prop.getProperty("usename");
+		String username=prop.getProperty("username");
 		String passwd=prop.getProperty("passwd");
 		String db_name=prop.getProperty("db_name");
 		String url=null;
